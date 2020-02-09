@@ -1,6 +1,6 @@
 package root.sorting;
 
-import static root.Utils.printIntArray;
+import static root.Utils.printArray;
 import static root.Utils.swap;
 
 public class BubbleSort
@@ -9,7 +9,7 @@ public class BubbleSort
     {
         int[] array = new int[]{3, 5, 4, 1, 2};
         sort(array);
-        printIntArray(array);
+        printArray(array);
     }
     
     private static void sort(int[] array)

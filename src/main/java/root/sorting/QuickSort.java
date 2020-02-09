@@ -1,6 +1,6 @@
 package root.sorting;
 
-import static root.Utils.printIntArray;
+import static root.Utils.printArray;
 import static root.Utils.swap;
 
 public class QuickSort
@@ -9,7 +9,7 @@ public class QuickSort
     {
         int[] array = new int[]{3, 15, 46, -1, 7, 2, -55, 6};
         sort(array);
-        printIntArray(array);
+        printArray(array);
     }
     
     private static void sort(int[] array)

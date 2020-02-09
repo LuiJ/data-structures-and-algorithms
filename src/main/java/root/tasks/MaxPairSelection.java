@@ -1,6 +1,6 @@
 package root.tasks;
 
-import static root.Utils.printIntArray;
+import static root.Utils.printArray;
 import static root.Utils.swap;
 
 /*
@@ -18,7 +18,7 @@ public class MaxPairSelection
     {
         int[] array = new int[]{5, 7, 6, -3, -11, 10, 1, 0};
         int[] maxPair = selectMaxPair(array);
-        printIntArray(maxPair);
+        printArray(maxPair);
     }
     
     private static int[] selectMaxPair(int[] array)

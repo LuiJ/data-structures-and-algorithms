@@ -1,12 +1,11 @@
 package root.tree;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class BinaryTreePrinter
 {
-    private static final String VALUE_FORMAT = "( %s )";
     private static final double TREE_BASE = 2;
+    private static final String VALUE_FORMAT = "  (%s)  ";
 
     public static void main(String[] args)
     {
@@ -18,21 +17,20 @@ public class BinaryTreePrinter
         tree.addNode(3);
         tree.addNode(13);
         tree.addNode(21);
-
         new BinaryTreePrinter().print(tree);
     }
 
     public void print(BinaryTree<Integer> tree)
     {
-        List<List<Integer>> levelsOfTree = extractLevels(tree);
-        List<String> formatedLevels = formatLevels(levelsOfTree);
-        formatedLevels.forEach(System.out::println);
+        LinkedList<List<Integer>> levelsOfTree = extractLevels(tree);
+        LinkedList<String> formattedLevels = formatLevels(levelsOfTree);
+        printLevels(formattedLevels);
     }
 
-    private List<List<Integer>> extractLevels(BinaryTree<Integer> tree)
+    private LinkedList<List<Integer>> extractLevels(BinaryTree<Integer> tree)
     {
         BinaryTree.Node<Integer> root = tree.getRoot();
-        List<List<Integer>> levels = new LinkedList<>();
+        LinkedList<List<Integer>> levels = new LinkedList<>();
         levels.add(Arrays.asList(root.getValue()));
         Queue<BinaryTree.Node<Integer>> queue = new LinkedList<>();
         queue.add(root);
@@ -91,10 +89,66 @@ public class BinaryTreePrinter
         }
     }
 
-    private List<String> formatLevels(List<List<Integer>> levels)
+    private LinkedList<String> formatLevels(LinkedList<List<Integer>> levels)
     {
-        List<String> formatedLevels = new ArrayList<>();
-        // TODO: Impl
-        return formatedLevels;
+        LinkedList<String> formattedLevels = new LinkedList<>();
+        Iterator<List<Integer>> iterator = levels.descendingIterator();
+        String formattedWidestLevel = formatWidestLevel(iterator.next());
+        int widestLevelLength = formattedWidestLevel.length();
+        formattedLevels.add(formattedWidestLevel);
+        while (iterator.hasNext())
+        {
+            String formattedLevel = formatLevel(iterator.next(), widestLevelLength);
+            formattedLevels.add(formattedLevel);
+        }
+        return formattedLevels;
+    }
+
+    private String formatWidestLevel(List<Integer> level)
+    {
+        StringBuilder formattedLevel = new StringBuilder();
+        level.forEach(value ->
+        {
+            formattedLevel.append(formatValue(value));
+        });
+        return formattedLevel.toString();
+    }
+
+    private String formatLevel(List<Integer> level, int widestLevelLength)
+    {
+        char[] formattedLevel = new char[widestLevelLength];
+        int numberOfSection = level.size();
+        int sectionLength = widestLevelLength / numberOfSection;
+        int sectionStartPointer = 0;
+        Iterator<Integer> iterator = level.iterator();
+        while (iterator.hasNext())
+        {
+            String formattedValue = formatValue(iterator.next());
+            int formattedValueLength = formattedValue.length();
+            int valueStartPointer = sectionStartPointer + (sectionLength - formattedValueLength) / 2;
+            int valueEndPointer = valueStartPointer + formattedValueLength;
+            int i = 0;
+            for (int p = valueStartPointer; p < valueEndPointer; p++)
+            {
+                formattedLevel[p] = formattedValue.charAt(i);
+                i++;
+            }
+            sectionStartPointer += sectionLength;
+        }
+        return new String(formattedLevel);
+    }
+
+    private String formatValue(Integer value)
+    {
+        return String.format(VALUE_FORMAT, value == null ? "-" : value.toString());
+    }
+
+    private void printLevels(LinkedList<String> levels)
+    {
+        Iterator<String> iterator = levels.descendingIterator();
+        while (iterator.hasNext())
+        {
+            System.out.println(iterator.next());
+        }
     }
 }
