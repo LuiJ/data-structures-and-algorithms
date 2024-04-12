@@ -21,13 +21,13 @@ import java.util.*;
 public class BFS {
 
     public static void main(String[] args) {
-        Map<String, List<String>> graph = Map.of(
-            "A", List.of("B"),
-            "B", List.of("C", "D", "F"),
-            "C", List.of("E"),
-            "D", List.of("F"),
-            "E", List.of("F"),
-            "F", List.of("G")
+        Map<String, Set<String>> graph = Map.of(
+            "A", Set.of("B"),
+            "B", Set.of("C", "D", "F"),
+            "C", Set.of("E"),
+            "D", Set.of("F"),
+            "E", Set.of("F"),
+            "F", Set.of("G")
         );
         List<String> shortestPath = findShortestPath("A", "G", graph);
         System.out.println("The shortest path from A to G is " + shortestPath);
@@ -35,7 +35,7 @@ public class BFS {
 
     private static List<String> findShortestPath(String startPoint,
                                                  String targetPoint,
-                                                 Map<String, List<String>> graph) {
+                                                 Map<String, Set<String>> graph) {
         Queue<LinkedList<String>> queue = new LinkedList<>();
         queue.offer(asList(startPoint));
         while (!queue.isEmpty()) {
